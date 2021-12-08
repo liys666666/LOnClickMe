@@ -1,0 +1,4 @@
+include ':onclickme-compiler'
+include ':onclickme-annotations'
+include ':app'
+rootProject.name = "LOnClickMe"
