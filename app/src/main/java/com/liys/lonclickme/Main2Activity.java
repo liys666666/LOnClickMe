@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.liys.onclickme.LOnClickMe;
 import com.liys.onclickme_annotations.LOnClick;
 
 /**

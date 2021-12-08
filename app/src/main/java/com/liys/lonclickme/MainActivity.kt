@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import com.liys.onclickme.LOnClickMe
 import com.liys.onclickme_annotations.LOnClick
 
 class MainActivity : AppCompatActivity() {

@@ -1,9 +1,8 @@
-package com.liys.lonclickme;
+package com.liys.onclickme;
 
 import android.app.Activity;
 import android.view.View;
 
-import com.liys.onclickme_annotations.OnClickMeStandard;
 
 /**
  * @Description:

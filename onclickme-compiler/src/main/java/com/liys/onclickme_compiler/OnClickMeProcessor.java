@@ -2,7 +2,6 @@ package com.liys.onclickme_compiler;
 
 import com.google.auto.service.AutoService;
 import com.liys.onclickme_annotations.LOnClick;
-import com.liys.onclickme_annotations.OnClickMeStandard;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.MethodSpec;
@@ -113,7 +112,8 @@ class OnClickMeProcessor extends AbstractProcessor {
                 //2.类名
                 TypeSpec typeSpec = TypeSpec
                         .classBuilder(typeElement.getSimpleName() + "_OnClickMe")
-                        .addSuperinterface(ClassName.get(OnClickMeStandard.class))
+                        .addSuperinterface(ClassName.get("com.liys.onclickme", "OnClickMeStandard"))
+//                        .addSuperinterface(ClassName.get(OnClickMeStandard.class))
                         .addMethod(methodSpecBuilder.build())
                         .addModifiers(Modifier.PUBLIC, Modifier.FINAL) //修饰符
                         .build();

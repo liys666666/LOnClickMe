@@ -1,4 +1,4 @@
-package com.liys.onclickme_annotations;
+package com.liys.onclickme;
 
 
 

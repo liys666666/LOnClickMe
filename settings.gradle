@@ -1,3 +1,4 @@
+include ':onClickMe'
 include ':onclickme-compiler'
 include ':onclickme-annotations'
 include ':app'

@@ -3,8 +3,6 @@ apply plugin: 'java-library'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':onclickme-annotations')
-//    implementation project(path: ':onclickme-annotations')
-//    implementation project(path: ':arouter-annotations')
 
     // 背后的服务 能够监听 你是否在编译中.....
      //AS3.4.1 + Gradle 5.1.1 + auto-service:1.0-rc4
