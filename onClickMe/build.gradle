@@ -1,5 +1,8 @@
 apply plugin: 'com.android.library'
 
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.github.liys666666'
+
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
@@ -31,6 +34,7 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
 //    implementation project(path: ':onclickme-compiler')
-    api project(path: ':onclickme-annotations')
+//    api project(path: ':onclickme-annotations')
+    api project(':onclickme-annotations')
 
 }
