@@ -26,58 +26,37 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 
 
-apply plugin: 'maven-publish'
-version '1.1.5'
+//apply plugin: "maven"
+// 指定编码
+tasks.withType(JavaCompile) {
+    options.encoding = "UTF-8"
+}
 
-afterEvaluate { project ->
-
-    def isAndroid = project.getPlugins().hasPlugin('com.android.application') ||
-            project.getPlugins().hasPlugin('com.android.library')
-
-    if (isAndroid) {
-        task sourceJar(type: Jar) {
-            from android.sourceSets.main.java.source  // todo:zx 试试这个
-            archiveClassifier.convention('sources')
-            archiveClassifier.set("sources")
-
-        }
-    } else {
-        java {
-            withJavadocJar()
-            withSourcesJar()
-        }
+//指定生成的javadoc文档编码格式，防止javadoc中文乱码
+tasks.withType(Javadoc) {
+    options{
+        encoding "UTF-8"
+        charSet 'UTF-8'
+        links "http://docs.oracle.com/javase/8/docs/api"
     }
+}
 
-    publishing {
-//        repositories {
-//            maven {
-//                def localMaven = IS_LOCAL.toBoolean()
-//                url = localMaven ? LOCAL_REPOSITORY_URL : RELEASE_REPOSITORY_URL
-//            }
-//        }
-        publications {
-            // Creates a Maven publication called "release".
-            release(MavenPublication) {
-                // Applies the component for the release build variant.
-                if (isAndroid) {
-                    from components.release
-                    artifact sourceJar  //配置上传源码
-                } else {
-                    from components.java
-                }
+version '1.1.6'
 
-//                artifact sourceJar  //配置上传源码
+repositories {
+    mavenCentral()
+}
 
-                // You can then customize attributes of the publication as shown below.
-                groupId = "com.github.liys666666"
-                artifactId = "com.liys.onclickme"
-//                groupId = GROUP
-//                artifactId = POM_ARTIFACT_ID
-                version = "1.1.5"
+task sourcesJar(type: Jar, dependsOn: classes) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
 
-            }
-        }
-    }
-
-
+artifacts {
+    archives sourcesJar
+    archives javadocJar
 }
