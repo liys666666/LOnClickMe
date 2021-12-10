@@ -1,7 +1,7 @@
 apply plugin: 'java-library'
 
-//apply plugin: 'com.github.dcendents.android-maven'
-//group='com.gitee.liys666666'
+apply plugin: 'com.github.dcendents.android-maven'
+group='com.gitee.liys666666'
 
 //apply from:"../publishJavaLib.gradle"
 
