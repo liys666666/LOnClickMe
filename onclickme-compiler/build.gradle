@@ -1,7 +1,7 @@
 apply plugin: 'java-library'
 
-apply plugin: 'com.github.dcendents.android-maven'
-group='com.gitee.liys666666'
+//apply plugin: 'com.github.dcendents.android-maven'
+//group='com.gitee.liys666666'
 
 //apply from:"../publishJavaLib.gradle"
 
@@ -19,6 +19,7 @@ dependencies {
     implementation "com.squareup:javapoet:1.9.0"
 }
 
+/*
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
@@ -78,4 +79,5 @@ afterEvaluate { project ->
         }
     }
 
-}
+
+}*/
