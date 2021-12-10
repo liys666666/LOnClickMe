@@ -8,6 +8,7 @@ group='com.github.liys666666'
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation project(path: ':onclickme-annotations')
+//    implementation project(path: ':onClickMe')
 
     // 背后的服务 能够监听 你是否在编译中.....
      //AS3.4.1 + Gradle 5.1.1 + auto-service:1.0-rc4
@@ -25,7 +26,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 
 apply plugin: 'maven-publish'
-version '1.1.0'
+version '1.1.1'
 
 afterEvaluate { project ->
 
@@ -71,7 +72,7 @@ afterEvaluate { project ->
                 artifactId = "com.liys.onclickme"
 //                groupId = GROUP
 //                artifactId = POM_ARTIFACT_ID
-                version = "1.1.0"
+                version = "1.1.1"
 
             }
         }
