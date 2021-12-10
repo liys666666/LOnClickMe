@@ -1,9 +1,8 @@
 apply plugin: 'java-library'
 
+apply plugin: 'maven-publish'
 apply plugin: 'com.github.dcendents.android-maven'
 group='com.gitee.liys666666'
-
-//apply from:"../publishJavaLib.gradle"
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -26,37 +25,15 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 
 
-//apply plugin: "maven"
-// 指定编码
-tasks.withType(JavaCompile) {
-    options.encoding = "UTF-8"
-}
-
-//指定生成的javadoc文档编码格式，防止javadoc中文乱码
-tasks.withType(Javadoc) {
-    options{
-        encoding "UTF-8"
-        charSet 'UTF-8'
-        links "http://docs.oracle.com/javase/8/docs/api"
+afterEvaluate {
+    publishing {
+        publications {
+            release(MavenPublication) {
+                from(components["java"])
+                groupId = 'com.gitee.liys666666.LOnClickMe'
+                artifactId = 'OnClickMe'
+                version = '1.1.7'
+            }
+        }
     }
-}
-
-version '1.1.6'
-
-repositories {
-    mavenCentral()
-}
-
-task sourcesJar(type: Jar, dependsOn: classes) {
-    classifier = 'sources'
-    from sourceSets.main.allSource
-}
-task javadocJar(type: Jar, dependsOn: javadoc) {
-    classifier = 'javadoc'
-    from javadoc.destinationDir
-}
-
-artifacts {
-    archives sourcesJar
-    archives javadocJar
 }
