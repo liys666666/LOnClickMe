@@ -36,6 +36,5 @@ dependencies {
 //    implementation project(path: ':onclickme-compiler')
 //    api project(path: ':onclickme-annotations')
     api project(':onclickme-annotations')
-//    annotationProcessor project(":onclickme-compiler")
 
 }
