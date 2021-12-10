@@ -25,7 +25,7 @@ targetCompatibility = JavaVersion.VERSION_1_8
 
 
 apply plugin: 'maven-publish'
-version '1.0.8'
+version '1.1.0'
 
 afterEvaluate { project ->
 
@@ -71,7 +71,7 @@ afterEvaluate { project ->
                 artifactId = "com.liys.onclickme"
 //                groupId = GROUP
 //                artifactId = POM_ARTIFACT_ID
-                version = "1.0.9"
+                version = "1.1.0"
 
             }
         }
