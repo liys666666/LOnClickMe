@@ -14,7 +14,7 @@ dependencies {
     annotationProcessor'com.google.auto.service:auto-service:1.0-rc4'
 
     // 帮助我们通过类调用的形式来生成Java代码 [JavaPoet]
-    implementation "com.squareup:javapoet:1.9.0"
+    implementation "com.squareup:javapoet:1.10.0"
 }
 
 
@@ -30,8 +30,8 @@ afterEvaluate {
             release(MavenPublication) {
                 from(components["java"])
                 groupId = 'com.gitee.liys666666.LOnClickMe'
-                artifactId = 'onclickme-compiler'
-                version = '1.1.9'
+                artifactId = 'onclickme_compiler'
+                version = '1.1.11'
             }
         }
     }
