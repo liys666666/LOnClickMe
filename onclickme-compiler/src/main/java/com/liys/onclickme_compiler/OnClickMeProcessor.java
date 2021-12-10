@@ -39,7 +39,7 @@ public
 //@SupportedOptions("student")  //接收，安卓传递过来的参数
 @AutoService(Processor.class) // 启用服务
 @SupportedAnnotationTypes({"com.liys.onclickme_annotations.LOnClick"}) // 注解
-@SupportedSourceVersion(SourceVersion.RELEASE_7) //环境版本
+@SupportedSourceVersion(SourceVersion.RELEASE_8) //环境版本
 
 class OnClickMeProcessor extends AbstractProcessor {
 
@@ -53,11 +53,12 @@ class OnClickMeProcessor extends AbstractProcessor {
         messager = processingEnvironment.getMessager();
         elements = processingEnvironment.getElementUtils();
         filer = processingEnvironment.getFiler();
+        print(">>>>>>>>>>>>>OnClickMe初始化中....");
     }
 
     @Override
     public boolean process(Set<? extends TypeElement> set, RoundEnvironment roundEnvironment) {
-//        print(">>>>>>>>>>>>>监听成功， 编译中....");
+        print(">>>>>>>>>>>>>监听成功， 编译中....");
 
         Set<? extends Element> elements = roundEnvironment.getElementsAnnotatedWith(LOnClick.class);
         if(ProcessorUtils.isEmpty(elements)){
@@ -121,7 +122,7 @@ class OnClickMeProcessor extends AbstractProcessor {
                 //3.包名
                 JavaFile packages = JavaFile.builder(packageName, typeSpec).build();
                 packages.writeTo(filer);
-//                print("生成文件....成功");
+                print("OnClickMe生成文件....成功");
 
             } catch (IOException e) {
                 e.printStackTrace();
