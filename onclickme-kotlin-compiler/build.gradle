@@ -1,0 +1,29 @@
+apply plugin: 'java-library'
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-kapt'
+
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+//    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+
+
+    implementation project(path: ':onclickme-annotations')
+    implementation 'com.google.auto.service:auto-service:1.0-rc3'
+    implementation "com.squareup:kotlinpoet:1.0.0"
+    implementation "androidx.annotation:annotation:1.2.0"
+    implementation "org.jetbrains.kotlinx:kotlinx-metadata-jvm:0.3.0"
+}
+
+sourceCompatibility = "1.8"
+targetCompatibility = "1.8"
+
+
+//指定版本
+configurations.all {
+    resolutionStrategy.eachDependency { DependencyResolveDetails details ->
+        def requested = details.requested
+        if (requested.group == 'org.jetbrains.kotlin' && requested.name == 'kotlin-reflect') {
+            details.useVersion '1.3.72'
+        }
+    }
+}
