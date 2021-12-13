@@ -1,4 +1,3 @@
-include ':onclickme-kotlin-compiler'
 include ':onClickMe'
 include ':onclickme-compiler'
 include ':onclickme-annotations'
