@@ -53,7 +53,7 @@ class OnClickMeProcessor extends AbstractProcessor {
         messager = processingEnvironment.getMessager();
         elements = processingEnvironment.getElementUtils();
         filer = processingEnvironment.getFiler();
-//        print(">>>>>>>>>>>>>OnClickMe初始化中....");
+        print(">>>>>>>>>>>>>OnClickMe初始化中....");
     }
 
     @Override

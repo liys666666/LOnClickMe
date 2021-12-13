@@ -17,7 +17,7 @@ class MainActivity : AppCompatActivity() {
 
     @LOnClick(*[R.id.btn_activity])
     fun onClick(view: View){
-        Log.d("66", "点击activity...")
+        Log.d("66", "点击MainActivity...")
     }
 
 }
