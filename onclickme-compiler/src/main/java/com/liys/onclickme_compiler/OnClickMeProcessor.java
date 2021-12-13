@@ -39,7 +39,7 @@ public
 //@SupportedOptions("student")  //接收，安卓传递过来的参数
 @AutoService(Processor.class) // 启用服务
 @SupportedAnnotationTypes({"com.liys.onclickme_annotations.LOnClick"}) // 注解
-@SupportedSourceVersion(SourceVersion.RELEASE_7) //环境版本
+@SupportedSourceVersion(SourceVersion.RELEASE_8) //环境版本
 
 class OnClickMeProcessor extends AbstractProcessor {
 
