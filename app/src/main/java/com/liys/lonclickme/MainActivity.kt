@@ -15,9 +15,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    @LOnClick(*[R.id.tv_text, R.id.tv_text])
+    @LOnClick(*[R.id.btn_activity])
     fun onClick(view: View){
-        Log.d("66", "1111")
+        Log.d("66", "点击activity...")
     }
 
 }

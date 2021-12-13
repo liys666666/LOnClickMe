@@ -1,10 +1,7 @@
 package com.liys.onclickme;
 
 import android.app.Activity;
-import android.os.Build;
 import android.view.View;
-
-import androidx.annotation.RequiresApi;
 
 
 /**
@@ -28,8 +25,12 @@ public class LOnClickMe {
             Class clazz =  Class.forName(className);
             OnClickMeStandard standard = (OnClickMeStandard)clazz.newInstance();
             standard.init(target, source);
-        } catch (ClassNotFoundException | IllegalAccessException | InstantiationException e) {
-            //本类---无注解
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
     }
 }
