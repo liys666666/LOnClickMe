@@ -25,12 +25,12 @@ public class LOnClickMe {
             Class clazz =  Class.forName(className);
             OnClickMeStandard standard = (OnClickMeStandard)clazz.newInstance();
             standard.init(target, source);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
+        } catch (IllegalAccessException ignored) {
+
         } catch (InstantiationException e) {
-            e.printStackTrace();
+
         } catch (ClassNotFoundException e) {
-            e.printStackTrace();
+
         }
     }
 }

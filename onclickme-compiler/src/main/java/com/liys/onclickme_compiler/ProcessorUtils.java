@@ -1,24 +1,27 @@
 package com.liys.onclickme_compiler;
 
-import java.util.Collection;
-import java.util.Map;
+import com.squareup.javapoet.ClassName;
 
 /**
- * 字符串、集合判空工具
+ * @Description:
+ * @Author: liys
+ * @CreateDate: 2021/12/14 10:55
+ * @UpdateUser: 更新者
+ * @UpdateDate: 2021/12/14 10:55
+ * @UpdateRemark: 更新说明
+ * @Version: 1.0
  */
-public final class ProcessorUtils {
+public class ProcessorUtils {
 
+    public static ClassName viewClass = ClassName.get("android.view", "View");
+    public static ClassName onClickListenerClass = ClassName.get("android.view.View", "OnClickListener");
 
-    public static boolean isEmpty(CharSequence cs) {
-        return cs == null || cs.length() == 0;
+    /**
+     * 获取R
+     * @param R_Package R所在包名
+     * @return
+     */
+    public static ClassName getRClass(String R_Package){
+        return ClassName.get(R_Package, "R");
     }
-
-    public static boolean isEmpty(Collection<?> coll) {
-        return coll == null || coll.isEmpty();
-    }
-
-    public static boolean isEmpty(final Map<?, ?> map) {
-        return map == null || map.isEmpty();
-    }
-
 }

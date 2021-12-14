@@ -41,4 +41,9 @@ public class MyFragment extends Fragment {
         Log.d("66", "点击Fragment...");
         Toast.makeText(getContext(), "点击Fragment...", Toast.LENGTH_SHORT).show();
     }
+    @LOnClick({R.id.btn_fragment2})
+    void click2(View v){
+        Log.d("66", "点击Fragment2...");
+        Toast.makeText(getContext(), "点击Fragment2...", Toast.LENGTH_SHORT).show();
+    }
 }

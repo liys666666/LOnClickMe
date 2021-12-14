@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import com.liys.onclickme.LOnClickMe;
 import com.liys.onclickme_annotations.LOnClick;
+import com.liys.onclickme_annotations.LOnClickStr;
 
 /**
  * @Description:
@@ -24,6 +25,8 @@ import com.liys.onclickme_annotations.LOnClick;
  * @Version: 1.0
  */
 public class Main2Activity extends AppCompatActivity {
+
+    String TAG = "66";
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -41,9 +44,21 @@ public class Main2Activity extends AppCompatActivity {
     }
 
 
-    @LOnClick({R.id.btn_activity})
-    void click(View v){
-        Log.d("66", "点击activity...");
-        Toast.makeText(this, "点击activity...", Toast.LENGTH_SHORT).show();
+
+    @LOnClickStr({"btn_activity", "btn_activity2"})
+    void click(View v, String idName){
+        switch (idName){
+            case "btn_activity":
+                Log.d(TAG, "点击activity...");
+                Toast.makeText(this, "点击activity...", Toast.LENGTH_SHORT).show();
+                break;
+            case "btn_activity2":
+                Log.d(TAG, "点击activity2...");
+                Toast.makeText(this, "点击activity2...", Toast.LENGTH_SHORT).show();
+                break;
+        }
+
     }
+
+
 }

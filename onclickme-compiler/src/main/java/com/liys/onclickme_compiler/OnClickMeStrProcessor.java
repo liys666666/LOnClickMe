@@ -1,7 +1,6 @@
 package com.liys.onclickme_compiler;
 
 import com.google.auto.service.AutoService;
-import com.liys.onclickme_annotations.LOnClick;
 import com.liys.onclickme_annotations.LOnClickStr;
 import com.liys.onclickme_compiler.bean.AnnotationInfo;
 import com.squareup.javapoet.ClassName;
@@ -30,58 +29,62 @@ import javax.lang.model.element.Modifier;
  * @UpdateRemark:
  * @Version: 1.0
  */
+//@SupportedOptions("student")  //接收，安卓传递过来的参数
 @AutoService(Processor.class) // 启用服务
-@SupportedAnnotationTypes({"com.liys.onclickme_annotations.LOnClick"}) // 注解
+@SupportedAnnotationTypes({"com.liys.onclickme_annotations.LOnClickStr"}) // 注解
 @SupportedSourceVersion(SourceVersion.RELEASE_7) //环境版本
-public class OnClickMeProcessor extends BaseProcessor {
-
+public class OnClickMeStrProcessor extends BaseProcessor {
     //注解信息集合<全类名, 注解信息>
-    HashMap<String, AnnotationInfo<Integer>> annotationInfoMap = new HashMap<>();
+    HashMap<String, AnnotationInfo<String>> annotationInfoMap = new HashMap<>();
 
     @Override
     public Class<? extends Annotation> getAnnotation() {
-        return LOnClick.class;
+        return LOnClickStr.class;
     }
 
     @Override
     public void process(Element element, String packageName, String className, String packageClassName) {
-        int[] ids = element.getAnnotation(LOnClick.class).value();
+        if(RClass==null){
+            return;
+        }
         String methodName = element.getSimpleName().toString(); //方法名
+        String[] idNames = element.getAnnotation(LOnClickStr.class).value();
 
         if(annotationInfoMap.containsKey(packageClassName)){ //已存在
-            AnnotationInfo<Integer> annotationInfo = annotationInfoMap.get(packageClassName);
-            for (int i = 0; i < ids.length; i++) {
-                annotationInfo.put(ids[i], methodName);
+            AnnotationInfo<String> annotationInfo = annotationInfoMap.get(packageClassName);
+            for (int i = 0; i < idNames.length; i++) {
+                annotationInfo.put(idNames[i], methodName);
             }
         }else{ //新的类
-            AnnotationInfo<Integer> annotationInfo = new AnnotationInfo<>();
+            AnnotationInfo<String> annotationInfo = new AnnotationInfo<>();
             annotationInfo.setClassName(className)
                     .setPackageName(packageName);
 
-            for (int i = 0; i < ids.length; i++) {
-                annotationInfo.put(ids[i], methodName);
+            for (int i = 0; i < idNames.length; i++) {
+                annotationInfo.put(idNames[i], methodName);
             }
             annotationInfoMap.put(packageClassName, annotationInfo);
         }
     }
 
     @Override
-    public void processEnd() {
-        for (AnnotationInfo<Integer> annotationInfo : annotationInfoMap.values()) {
-            createOnClickMe(annotationInfo.getPackageName(), annotationInfo.getClassName(), annotationInfo.getIdMap());
+    public void processEnd(){
+        for (AnnotationInfo<String> annotationInfo : annotationInfoMap.values()) {
+            createOnClickMeStr(RClass, annotationInfo.getPackageName(), annotationInfo.getClassName(), annotationInfo.getIdMap());
         }
     }
 
     /**
      * 创建XXXActivity_OnClickMe
-     * @param packageName 包名
+     * @param RClass R类
      * @param className 类名
-     * @param idMap  <id, 方法名>  <123456, "click">
+     * @param idMap <id名, 方法名>  <"btn", "click">
      */
-    private void createOnClickMe(String packageName, String className,Map<Integer, String> idMap){
+    void createOnClickMeStr(ClassName RClass, String packageName, String className, Map<String, String> idMap){
         if(idMap==null || idMap.size()==0){
             return;
         }
+
         //参数
         ClassName thisClass = ClassName.get(packageName, className);   //Main2Activity
         //1.方法
@@ -97,14 +100,14 @@ public class OnClickMeProcessor extends BaseProcessor {
                 .addCode("}\n")
                 .addStatement("final $T mainActivity = ($T)target", thisClass, thisClass);
 
-        for (Map.Entry<Integer, String> entry : idMap.entrySet()) {
-            methodSpecBuilder.addStatement("sourceView.findViewById("+ entry.getKey() +").setOnClickListener( "+
+        for (Map.Entry<String, String> entry : idMap.entrySet()) {
+            methodSpecBuilder.addStatement("sourceView.findViewById($T.id."+ entry.getKey() +").setOnClickListener( "+
                     "new $T() {"
                     + "\n@Override"
                     + "\npublic void onClick($T v) {"
-                    + "\n\tmainActivity." + entry.getValue() + "(v);"
+                    + "\n\tmainActivity." + entry.getValue() + "(v, \"" + entry.getKey() + "\");"
                     + "\n}"
-                    +"\n})", ProcessorUtils.onClickListenerClass, ProcessorUtils.viewClass);
+                    +"\n})", RClass, ProcessorUtils.onClickListenerClass, ProcessorUtils.viewClass);
 
 
         }
@@ -121,5 +124,4 @@ public class OnClickMeProcessor extends BaseProcessor {
         //3.包名
         createFile(packageName, typeSpec);
     }
-
 }

@@ -1,6 +1,7 @@
 package com.liys.onclickme;
 
 
+import android.view.View;
 
 /**
  * @Description:
@@ -18,5 +19,5 @@ public interface OnClickMeStandard {
      * @param target 注解所在的类
      * @param sourceView view
      */
-    void init(Object target, Object sourceView);
+    void init(Object target, View sourceView);
 }

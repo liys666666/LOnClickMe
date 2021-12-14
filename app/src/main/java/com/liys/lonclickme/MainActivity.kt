@@ -1,11 +1,8 @@
 package com.liys.lonclickme
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import com.liys.onclickme.LOnClickMe
-import com.liys.onclickme_annotations.LOnClick
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -15,9 +12,9 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    @LOnClick(*[R.id.btn_activity])
-    fun onClick(view: View){
-        Log.d("66", "点击MainActivity...")
-    }
+//    @LOnClick(*[R.id.btn_activity])
+//    fun onClick(view: View){
+//        Log.d("66", "点击MainActivity...")
+//    }
 
 }
