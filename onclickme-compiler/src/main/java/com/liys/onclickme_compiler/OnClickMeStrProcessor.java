@@ -1,7 +1,7 @@
 package com.liys.onclickme_compiler;
 
 import com.google.auto.service.AutoService;
-import com.liys.onclickme_annotations.LOnClickStr;
+import com.liys.onclickme_annotations.AClickStr;
 import com.liys.onclickme_compiler.bean.AnnotationInfo;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
@@ -31,7 +31,7 @@ import javax.lang.model.element.Modifier;
  */
 //@SupportedOptions("student")  //接收，安卓传递过来的参数
 @AutoService(Processor.class) // 启用服务
-@SupportedAnnotationTypes({"com.liys.onclickme_annotations.LOnClickStr"}) // 注解
+@SupportedAnnotationTypes({"com.liys.onclickme_annotations.AClickStr"}) // 注解
 @SupportedSourceVersion(SourceVersion.RELEASE_7) //环境版本
 public class OnClickMeStrProcessor extends BaseProcessor {
     //注解信息集合<全类名, 注解信息>
@@ -39,7 +39,7 @@ public class OnClickMeStrProcessor extends BaseProcessor {
 
     @Override
     public Class<? extends Annotation> getAnnotation() {
-        return LOnClickStr.class;
+        return AClickStr.class;
     }
 
     @Override
@@ -48,7 +48,7 @@ public class OnClickMeStrProcessor extends BaseProcessor {
             return;
         }
         String methodName = element.getSimpleName().toString(); //方法名
-        String[] idNames = element.getAnnotation(LOnClickStr.class).value();
+        String[] idNames = element.getAnnotation(AClickStr.class).value();
 
         if(annotationInfoMap.containsKey(packageClassName)){ //已存在
             AnnotationInfo<String> annotationInfo = annotationInfoMap.get(packageClassName);
@@ -98,17 +98,16 @@ public class OnClickMeStrProcessor extends BaseProcessor {
 //                        .addStatement("$T.out.print($S)", System.class, ".....编译期, 生成的类")
                 .addStatement("if(!(target instanceof $T)){\nreturn", thisClass)
                 .addCode("}\n")
-                .addStatement("final $T mainActivity = ($T)target", thisClass, thisClass);
+                .addStatement("final $T "+ ProcessorUtils.userName +" = ($T)target", thisClass, thisClass);
 
         for (Map.Entry<String, String> entry : idMap.entrySet()) {
             methodSpecBuilder.addStatement("sourceView.findViewById($T.id."+ entry.getKey() +").setOnClickListener( "+
                     "new $T() {"
                     + "\n@Override"
                     + "\npublic void onClick($T v) {"
-                    + "\n\tmainActivity." + entry.getValue() + "(v, \"" + entry.getKey() + "\");"
-                    + "\n}"
-                    +"\n})", RClass, ProcessorUtils.onClickListenerClass, ProcessorUtils.viewClass);
-
+                    + "\n\t" + ProcessorUtils.userName + "." + entry.getValue() + "(v, \"" + entry.getKey() + "\");"
+                    + "\n}", RClass, ProcessorUtils.onClickListenerClass, ProcessorUtils.viewClass);
+            methodSpecBuilder.addStatement("})");
 
         }
 

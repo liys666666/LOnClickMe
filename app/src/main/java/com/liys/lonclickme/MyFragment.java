@@ -5,16 +5,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
 import com.liys.onclickme.LOnClickMe;
-import com.liys.onclickme_annotations.LOnClick;
+import com.liys.onclickme_annotations.AClick;
 
 /**
  * @Description:
@@ -36,12 +34,12 @@ public class MyFragment extends Fragment {
     }
 
 
-    @LOnClick({R.id.btn_fragment})
+    @AClick({R.id.btn_fragment})
     void click(View v){
         Log.d("66", "点击Fragment...");
         Toast.makeText(getContext(), "点击Fragment...", Toast.LENGTH_SHORT).show();
     }
-    @LOnClick({R.id.btn_fragment2})
+    @AClick({R.id.btn_fragment2})
     void click2(View v){
         Log.d("66", "点击Fragment2...");
         Toast.makeText(getContext(), "点击Fragment2...", Toast.LENGTH_SHORT).show();

@@ -12,8 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.liys.onclickme.LOnClickMe;
-import com.liys.onclickme_annotations.LOnClick;
-import com.liys.onclickme_annotations.LOnClickStr;
+import com.liys.onclickme_annotations.AClickStr;
 
 /**
  * @Description:
@@ -45,7 +44,7 @@ public class Main2Activity extends AppCompatActivity {
 
 
 
-    @LOnClickStr({"btn_activity", "btn_activity2"})
+    @AClickStr({"btn_activity", "btn_activity2"})
     void click(View v, String idName){
         switch (idName){
             case "btn_activity":

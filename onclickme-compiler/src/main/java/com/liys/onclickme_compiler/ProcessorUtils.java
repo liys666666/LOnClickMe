@@ -15,6 +15,7 @@ public class ProcessorUtils {
 
     public static ClassName viewClass = ClassName.get("android.view", "View");
     public static ClassName onClickListenerClass = ClassName.get("android.view.View", "OnClickListener");
+    public static String userName = "user";
 
     /**
      * 获取R

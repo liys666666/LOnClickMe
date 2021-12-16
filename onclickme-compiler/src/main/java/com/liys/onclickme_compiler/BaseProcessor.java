@@ -68,11 +68,12 @@ public abstract class BaseProcessor extends AbstractProcessor{
         filer = processingEnvironment.getFiler();
 
         //拿到R类
+//        RClass = ProcessorUtils.getRClass(R_Package);
         R_Package = processingEnvironment.getOptions().get(ProcessorConfig.R_Package);
-        if(R_Package!=null && !("".equals(R_Package.trim()))){
-            RClass = ProcessorUtils.getRClass(R_Package);
+        if(R_Package==null){
+            R_Package = "";
         }
-
+        RClass = ProcessorUtils.getRClass(R_Package);
     }
 
     @Override

@@ -22,8 +22,6 @@ sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_7
 
 
-
-
 afterEvaluate {
     publishing {
         publications {
@@ -31,7 +29,7 @@ afterEvaluate {
                 from(components["java"])
                 groupId = 'com.gitee.liys666666.LOnClickMe'
                 artifactId = 'onclickme-compiler'
-                version = '1.1.17'
+                version = '1.1.18'
             }
         }
     }

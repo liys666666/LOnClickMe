@@ -19,6 +19,6 @@ import java.lang.annotation.Target;
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface LOnClick {
+public @interface AClick {
     @IdRes int[] value() default { -1 };
 }

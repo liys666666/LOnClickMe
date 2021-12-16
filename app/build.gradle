@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 //apply plugin: 'kotlin-android-extensions'
-//apply plugin: 'kotlin-kapt'
+apply plugin: 'kotlin-kapt'
 
 android {
     compileSdkVersion 30
@@ -16,11 +16,11 @@ android {
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
-        javaCompileOptions {
-            annotationProcessorOptions { //R对应的包名
-                arguments = [R_Package: "com.liys.lonclickme"]
-            }
-        }
+//        javaCompileOptions {
+//            annotationProcessorOptions { //R对应的包名
+//                arguments = [R_Package: "com.liys.lonclickme"]
+//            }
+//        }
     }
 
     buildTypes {
@@ -44,8 +44,8 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.3.0'
 
     implementation project(path: ':onClickMe')
-    annotationProcessor project(":onclickme-compiler")
-//    kapt project(":onclickme-kotlin-compiler")
+//    annotationProcessor project(":onclickme-compiler")
+    kapt project(":onclickme-compiler")
 
 //    implementation 'com.gitee.liys666666:LOnClickMe:1.1.11'
 //    annotationProcessor 'com.gitee.liys666666.LOnClickMe:onclickme-compiler:1.1.11'

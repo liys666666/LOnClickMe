@@ -1,8 +1,7 @@
 package com.liys.onclickme_compiler;
 
 import com.google.auto.service.AutoService;
-import com.liys.onclickme_annotations.LOnClick;
-import com.liys.onclickme_annotations.LOnClickStr;
+import com.liys.onclickme_annotations.AClick;
 import com.liys.onclickme_compiler.bean.AnnotationInfo;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
@@ -31,7 +30,7 @@ import javax.lang.model.element.Modifier;
  * @Version: 1.0
  */
 @AutoService(Processor.class) // 启用服务
-@SupportedAnnotationTypes({"com.liys.onclickme_annotations.LOnClick"}) // 注解
+@SupportedAnnotationTypes({"com.liys.onclickme_annotations.AClick"}) // 注解
 @SupportedSourceVersion(SourceVersion.RELEASE_7) //环境版本
 public class OnClickMeProcessor extends BaseProcessor {
 
@@ -40,12 +39,12 @@ public class OnClickMeProcessor extends BaseProcessor {
 
     @Override
     public Class<? extends Annotation> getAnnotation() {
-        return LOnClick.class;
+        return AClick.class;
     }
 
     @Override
     public void process(Element element, String packageName, String className, String packageClassName) {
-        int[] ids = element.getAnnotation(LOnClick.class).value();
+        int[] ids = element.getAnnotation(AClick.class).value();
         String methodName = element.getSimpleName().toString(); //方法名
 
         if(annotationInfoMap.containsKey(packageClassName)){ //已存在
@@ -95,17 +94,16 @@ public class OnClickMeProcessor extends BaseProcessor {
 //                        .addStatement("$T.out.print($S)", System.class, ".....编译期, 生成的类")
                 .addStatement("if(!(target instanceof $T)){\nreturn", thisClass)
                 .addCode("}\n")
-                .addStatement("final $T mainActivity = ($T)target", thisClass, thisClass);
+                .addStatement("final $T " + ProcessorUtils.userName +" = ($T)target", thisClass, thisClass);
 
         for (Map.Entry<Integer, String> entry : idMap.entrySet()) {
-            methodSpecBuilder.addStatement("sourceView.findViewById("+ entry.getKey() +").setOnClickListener( "+
+            methodSpecBuilder.addStatement("sourceView.findViewById("+ entry.getKey() +").setOnClickListener("+
                     "new $T() {"
                     + "\n@Override"
                     + "\npublic void onClick($T v) {"
-                    + "\n\tmainActivity." + entry.getValue() + "(v);"
-                    + "\n}"
-                    +"\n})", ProcessorUtils.onClickListenerClass, ProcessorUtils.viewClass);
-
+                    + "\n\t" + ProcessorUtils.userName + "." + entry.getValue() + "(v);"
+                    + "\n}", ProcessorUtils.onClickListenerClass, ProcessorUtils.viewClass);
+            methodSpecBuilder.addStatement("})");
 
         }
 
