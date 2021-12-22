@@ -1,4 +1,4 @@
-package com.liys.onclickme_compiler;
+package com.liys.onclickme_compiler.utils;
 
 import java.util.Collection;
 import java.util.Map;

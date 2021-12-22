@@ -1,7 +1,6 @@
 package com.liys.onclickme;
 
-import android.app.Activity;
-import android.view.View;
+import androidx.viewbinding.ViewBinding;
 
 
 /**
@@ -15,16 +14,12 @@ import android.view.View;
  */
 public class LOnClickMe {
 
-    public static void init(Activity target){
-        init(target, target.getWindow().getDecorView());
-    }
-
-    public static void init(Object target, View source){
+    public static void bind(Object target, ViewBinding binding){
         String className = target.getClass().getCanonicalName()+"_OnClickMe";
         try {
             Class clazz =  Class.forName(className);
             OnClickMeStandard standard = (OnClickMeStandard)clazz.newInstance();
-            standard.init(target, source);
+            standard.bind(target, binding);
         } catch (IllegalAccessException ignored) {
 
         } catch (InstantiationException e) {

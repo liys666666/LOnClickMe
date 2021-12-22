@@ -10,9 +10,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.viewbinding.ViewBinding;
 
+import com.liys.lonclickme.databinding.ActivityMainBinding;
 import com.liys.onclickme.LOnClickMe;
-import com.liys.onclickme_annotations.AClickStr;
+import com.liys.onclickme.OnClickMeStandard;
+import com.liys.onclickme_annotations.AClick;
 
 /**
  * @Description:
@@ -26,14 +29,26 @@ import com.liys.onclickme_annotations.AClickStr;
 public class Main2Activity extends AppCompatActivity {
 
     String TAG = "66";
+    ActivityMainBinding binding;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        replaceFragment(new MyFragment());
-        LOnClickMe.init(this);
+//        setContentView(R.layout.activity_main);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        LOnClickMe.bind(this, binding); //添加
     }
+    
+    private void setOnClick(){
+        binding.btnActivity.setOnClickListener(v -> {
+
+        });
+        binding.btnActivity2.setOnClickListener(v -> {
+
+        });
+    }
+
 
     private void replaceFragment(Fragment fragment) {
         FragmentManager fragmentManager = getSupportFragmentManager();
@@ -42,22 +57,32 @@ public class Main2Activity extends AppCompatActivity {
         transaction.commit();
     }
 
-
-
-    @AClickStr({"btn_activity", "btn_activity2"})
-    void click(View v, String idName){
-        switch (idName){
-            case "btn_activity":
-                Log.d(TAG, "点击activity...");
-                Toast.makeText(this, "点击activity...", Toast.LENGTH_SHORT).show();
-                break;
-            case "btn_activity2":
-                Log.d(TAG, "点击activity2...");
-                Toast.makeText(this, "点击activity2...", Toast.LENGTH_SHORT).show();
-                break;
-        }
-
+    @AClick(ids = {"btn_activity", "btn_activity2", "fragment.btn_fragment", "fragment.btn_fragment2"}, binding = ActivityMainBinding.class)
+    public void click(View view, String idType) {
+//        switch (idType) {
+//            case "btn_activity":
+//                break;
+//            case "btn_activity2":
+//                break;
+//            case "fragment.btn_fragment":
+//                break;
+//            case "fragment.btn_fragment2":
+//                break;
+//        }
     }
 
 
+//    @AClick(ids={"btn_activity", "btn_activity2", "fragment.btn_fragment"}, binding=ActivityMainBinding.class)
+//    public void click(View view, String idName) {
+//        switch (idName) {
+//            case "btn_activity":
+//                Log.d(TAG, "点击activity...");
+//                Toast.makeText(this, "点击activity...", Toast.LENGTH_SHORT).show();
+//                break;
+//            case "btn_activity2":
+//                Log.d(TAG, "点击activity2...");
+//                Toast.makeText(this, "点击activity2...", Toast.LENGTH_SHORT).show();
+//                break;
+//        }
+//    }
 }

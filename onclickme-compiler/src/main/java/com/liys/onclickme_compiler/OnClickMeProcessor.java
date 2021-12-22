@@ -2,22 +2,27 @@ package com.liys.onclickme_compiler;
 
 import com.google.auto.service.AutoService;
 import com.liys.onclickme_annotations.AClick;
-import com.liys.onclickme_compiler.bean.AnnotationInfo;
+import com.liys.onclickme_compiler.bean.AClassInfo;
+import com.liys.onclickme_compiler.utils.EmptyUtils;
+import com.liys.onclickme_compiler.utils.ProcessorUtils;
+import com.liys.onclickme_compiler.utils.StringUtils;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.MethodSpec;
 import com.squareup.javapoet.TypeName;
 import com.squareup.javapoet.TypeSpec;
 
-import java.lang.annotation.Annotation;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import javax.annotation.processing.Processor;
+import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
 import javax.lang.model.element.Modifier;
+import javax.lang.model.element.TypeElement;
 
 
 /**
@@ -29,79 +34,74 @@ import javax.lang.model.element.Modifier;
  * @UpdateRemark:
  * @Version: 1.0
  */
+//@SupportedOptions("student")  //接收，安卓传递过来的参数
 @AutoService(Processor.class) // 启用服务
-@SupportedAnnotationTypes({"com.liys.onclickme_annotations.AClick"}) // 注解
+@SupportedAnnotationTypes({
+        "com.liys.onclickme_annotations.AClick",
+//        "com.liys.onclickme_annotations.AClickBinding"
+}) // 注解
 @SupportedSourceVersion(SourceVersion.RELEASE_7) //环境版本
 public class OnClickMeProcessor extends BaseProcessor {
 
-    //注解信息集合<全类名, 注解信息>
-    HashMap<String, AnnotationInfo<Integer>> annotationInfoMap = new HashMap<>();
+    // <binding全类名, AClick注解信息>
+    public static Map<String, AClassInfo> classInfoMap = new HashMap<>();
 
     @Override
-    public Class<? extends Annotation> getAnnotation() {
-        return AClick.class;
-    }
-
-    @Override
-    public void process(Element element, String packageName, String className, String packageClassName) {
-        int[] ids = element.getAnnotation(AClick.class).value();
-        String methodName = element.getSimpleName().toString(); //方法名
-
-        if(annotationInfoMap.containsKey(packageClassName)){ //已存在
-            AnnotationInfo<Integer> annotationInfo = annotationInfoMap.get(packageClassName);
-            for (int i = 0; i < ids.length; i++) {
-                annotationInfo.put(ids[i], methodName);
-            }
-        }else{ //新的类
-            AnnotationInfo<Integer> annotationInfo = new AnnotationInfo<>();
-            annotationInfo.setClassName(className)
-                    .setPackageName(packageName);
-
-            for (int i = 0; i < ids.length; i++) {
-                annotationInfo.put(ids[i], methodName);
-            }
-            annotationInfoMap.put(packageClassName, annotationInfo);
+    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+//        return super.process(annotations, roundEnv);
+//        Set<? extends Element> bindingElements = roundEnv.getElementsAnnotatedWith(AClickBinding.class);
+        Set<? extends Element> elementSet = roundEnv.getElementsAnnotatedWith(AClick.class);
+        if(EmptyUtils.isEmpty(elementSet)){
+            return true;
         }
+
+        for (Element element : elementSet) {
+            ProcessorUtils.inject(elements, element, classInfoMap);
+        }
+//        print("classInfoMap="+classInfoMap.toString());
+        for (AClassInfo aClassInfo: classInfoMap.values()) {
+            ClassName binding = aClassInfo.getBindingClass();
+            ClassName xxxOnClickMeClass = ClassName.get(aClassInfo.getThisClass().packageName(), aClassInfo.getThisClass().simpleName()+"_OnClickMe");
+            createOnClickMe(binding, aClassInfo.getThisClass(), xxxOnClickMeClass, aClassInfo.getIdMap());
+        }
+        return true;
     }
 
-    @Override
-    public void processEnd() {
-        for (AnnotationInfo<Integer> annotationInfo : annotationInfoMap.values()) {
-            createOnClickMe(annotationInfo.getPackageName(), annotationInfo.getClassName(), annotationInfo.getIdMap());
-        }
-    }
+
+
 
     /**
      * 创建XXXActivity_OnClickMe
-     * @param packageName 包名
-     * @param className 类名
-     * @param idMap  <id, 方法名>  <123456, "click">
+     * @param bindingClassName 对应binding信息
+     * @param thisClass //调用者信息
+     * @param xxxOnClickMeClass //最终类信息
+     * @param idMap //方法注解信息
      */
-    private void createOnClickMe(String packageName, String className,Map<Integer, String> idMap){
-        if(idMap==null || idMap.size()==0){
-            return;
-        }
-        //参数
-        ClassName thisClass = ClassName.get(packageName, className);   //Main2Activity
+    void createOnClickMe(ClassName bindingClassName, ClassName thisClass, ClassName xxxOnClickMeClass, Map<String, String> idMap){
         //1.方法
         MethodSpec.Builder methodSpecBuilder = MethodSpec
-                .methodBuilder("init")
+                .methodBuilder("bind")
                 .addAnnotation(Override.class)
                 .addModifiers(Modifier.PUBLIC) //修饰符
                 .returns(TypeName.VOID) //返回值
                 .addParameter(Object.class, "target")
-                .addParameter(ProcessorUtils.viewClass, "sourceView")
+                .addParameter(ProcessorUtils.bindingClass, "viewBinding")
 //                        .addStatement("$T.out.print($S)", System.class, ".....编译期, 生成的类")
                 .addStatement("if(!(target instanceof $T)){\nreturn", thisClass)
                 .addCode("}\n")
-                .addStatement("final $T " + ProcessorUtils.userName +" = ($T)target", thisClass, thisClass);
+                .addStatement("if(!(viewBinding instanceof $T)){\nreturn", bindingClassName)
+                .addCode("}\n")
+                .addStatement("final $T "+ ProcessorUtils.userName +" = ($T)target", thisClass, thisClass)
+                .addStatement("final $T "+ ProcessorUtils.bindingName +" = ($T)viewBinding", bindingClassName, bindingClassName);
 
-        for (Map.Entry<Integer, String> entry : idMap.entrySet()) {
-            methodSpecBuilder.addStatement("sourceView.findViewById("+ entry.getKey() +").setOnClickListener("+
+        for (Map.Entry<String, String> entry : idMap.entrySet()) {
+            String key = entry.getKey();
+            String bindingIdName = StringUtils.idName2binding(key);
+            methodSpecBuilder.addStatement(ProcessorUtils.bindingName + "."+ bindingIdName +".setOnClickListener("+
                     "new $T() {"
                     + "\n@Override"
                     + "\npublic void onClick($T v) {"
-                    + "\n\t" + ProcessorUtils.userName + "." + entry.getValue() + "(v);"
+                    + "\n\t" + ProcessorUtils.userName + "." + entry.getValue() + "(v, \"" + key + "\");"
                     + "\n}", ProcessorUtils.onClickListenerClass, ProcessorUtils.viewClass);
             methodSpecBuilder.addStatement("})");
 
@@ -109,15 +109,14 @@ public class OnClickMeProcessor extends BaseProcessor {
 
         //2.类名
         TypeSpec typeSpec = TypeSpec
-                .classBuilder(className + "_OnClickMe")
-                .addSuperinterface(ClassName.get("com.liys.onclickme", "OnClickMeStandard"))
+                .classBuilder(xxxOnClickMeClass.simpleName())
+                .addSuperinterface(ProcessorUtils.onClickMeStandardClass)
 //                        .addSuperinterface(ClassName.get(OnClickMeStandard.class))
                 .addMethod(methodSpecBuilder.build())
                 .addModifiers(Modifier.PUBLIC, Modifier.FINAL) //修饰符
                 .build();
 
         //3.包名
-        createFile(packageName, typeSpec);
+        createFile(xxxOnClickMeClass.packageName(), typeSpec);
     }
-
 }

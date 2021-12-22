@@ -1,21 +1,17 @@
 package com.liys.onclickme_compiler;
 
+import com.liys.onclickme_compiler.utils.ProcessorUtils;
 import com.squareup.javapoet.ClassName;
 import com.squareup.javapoet.JavaFile;
 import com.squareup.javapoet.TypeSpec;
 
 import java.io.IOException;
-import java.lang.annotation.Annotation;
-import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
 import javax.annotation.processing.Filer;
 import javax.annotation.processing.Messager;
 import javax.annotation.processing.ProcessingEnvironment;
-import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedOptions;
-import javax.lang.model.element.Element;
-import javax.lang.model.element.TypeElement;
 import javax.lang.model.util.Elements;
 import javax.tools.Diagnostic;
 
@@ -33,31 +29,10 @@ import javax.tools.Diagnostic;
 public abstract class BaseProcessor extends AbstractProcessor{
 
     private Filer filer;
-    private Elements elements;
+    protected Elements elements;
     protected Messager messager;
     protected String R_Package = ""; // app/module包名
     protected ClassName RClass = null;
-
-    /**
-     * 获取注解class
-     * @return
-     */
-    public abstract Class<? extends Annotation> getAnnotation();
-
-
-    /**
-     * 处理注解
-     * @param element
-     * @param packageName 包名
-     * @param className 类名
-     * @return
-     */
-    public abstract void process(Element element, String packageName, String className, String packageClassName);
-
-    /**
-     * end
-     */
-    public abstract void processEnd();
 
 
     @Override
@@ -74,30 +49,6 @@ public abstract class BaseProcessor extends AbstractProcessor{
             R_Package = "";
         }
         RClass = ProcessorUtils.getRClass(R_Package);
-    }
-
-    @Override
-    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        Set<? extends Element> elements = roundEnv.getElementsAnnotatedWith(getAnnotation());
-        if(EmptyUtils.isEmpty(elements)){
-            return false;
-        }
-        //解析
-        for (Element element : elements) {
-            //TODO 1. 获取参数
-//            String methodName = element.getSimpleName().toString(); //方法名
-            TypeElement typeElement = (TypeElement) element.getEnclosingElement();
-            //包名
-            String packageName = this.elements.getPackageOf(typeElement).getQualifiedName().toString();
-            //类名
-            String className = typeElement.getSimpleName().toString();
-            //全类名=包名+类名
-            String packageClassName = typeElement.getQualifiedName().toString();
-
-            process(element, packageName, className, packageClassName);
-        }
-        processEnd();
-        return true;
     }
 
     /**
@@ -121,6 +72,6 @@ public abstract class BaseProcessor extends AbstractProcessor{
      * @param msg
      */
     protected void print(String msg){
-        messager.printMessage(Diagnostic.Kind.OTHER, msg);
+        messager.printMessage(Diagnostic.Kind.NOTE, msg+"\n");
     }
 }

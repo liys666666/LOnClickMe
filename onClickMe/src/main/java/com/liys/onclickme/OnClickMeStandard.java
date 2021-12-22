@@ -1,7 +1,7 @@
 package com.liys.onclickme;
 
 
-import android.view.View;
+import androidx.viewbinding.ViewBinding;
 
 /**
  * @Description:
@@ -17,7 +17,7 @@ public interface OnClickMeStandard {
     /**
      * 初始化
      * @param target 注解所在的类
-     * @param sourceView view
+     * @param viewBinding viewBinding
      */
-    void init(Object target, View sourceView);
+    void bind(Object target, ViewBinding viewBinding);
 }

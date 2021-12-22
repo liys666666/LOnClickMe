@@ -29,19 +29,19 @@ public class MyFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_my, container, false);
-        LOnClickMe.init(this, root);
+//        LOnClickMe.init(this, root);
         return root;
     }
 
 
-    @AClick({R.id.btn_fragment})
-    void click(View v){
-        Log.d("66", "点击Fragment...");
-        Toast.makeText(getContext(), "点击Fragment...", Toast.LENGTH_SHORT).show();
-    }
-    @AClick({R.id.btn_fragment2})
-    void click2(View v){
-        Log.d("66", "点击Fragment2...");
-        Toast.makeText(getContext(), "点击Fragment2...", Toast.LENGTH_SHORT).show();
-    }
+//    @AClick({"btn_fragment"})
+//    void click(View v){
+//        Log.d("66", "点击Fragment...");
+//        Toast.makeText(getContext(), "点击Fragment...", Toast.LENGTH_SHORT).show();
+//    }
+//    @AClick({"btn_fragment2"})
+//    void click2(View v){
+//        Log.d("66", "点击Fragment2...");
+//        Toast.makeText(getContext(), "点击Fragment2...", Toast.LENGTH_SHORT).show();
+//    }
 }
