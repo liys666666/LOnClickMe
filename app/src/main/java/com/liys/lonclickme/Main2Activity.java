@@ -39,41 +39,22 @@ public class Main2Activity extends AppCompatActivity {
         setContentView(binding.getRoot());
         LOnClickMe.bind(this, binding); //添加
     }
-    
-    private void setOnClick(){
-        binding.btnActivity.setOnClickListener(v -> {
 
-        });
-        binding.btnActivity2.setOnClickListener(v -> {
-
-        });
-    }
-
-
-    private void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.right_fragment, fragment);
-        transaction.commit();
-    }
-
-    @AClick(ids = {"btn_activity", "btn_activity2", "fragment.btn_fragment", "fragment.btn_fragment2"}, binding = ActivityMainBinding.class)
+    @AClick(ids = {"btn_activity", "btn_activity2", "fragment.btn_fragment"}, binding = ActivityMainBinding.class)
     public void click(View view, String idType) {
-//        switch (idType) {
-//            case "btn_activity":
-//                break;
-//            case "btn_activity2":
-//                break;
-//            case "fragment.btn_fragment":
-//                break;
-//            case "fragment.btn_fragment2":
-//                break;
-//        }
+        switch (idType) {
+            case "btn_activity":
+                break;
+            case "btn_activity2":
+                break;
+            case "fragment.btn_fragment":
+                break;
+        }
     }
 
 
-//    @AClick(ids={"btn_activity", "btn_activity2", "fragment.btn_fragment"}, binding=ActivityMainBinding.class)
-//    public void click(View view, String idName) {
+//    @AClick(ids={"btn_activity", "btn_activity2"}, binding=ActivityMainBinding.class)
+//    public void click2(View view, String idName) {
 //        switch (idName) {
 //            case "btn_activity":
 //                Log.d(TAG, "点击activity...");
@@ -85,4 +66,12 @@ public class Main2Activity extends AppCompatActivity {
 //                break;
 //        }
 //    }
+
+
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.right_fragment, fragment);
+        transaction.commit();
+    }
 }

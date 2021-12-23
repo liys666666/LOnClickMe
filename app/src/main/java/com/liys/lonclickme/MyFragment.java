@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.liys.lonclickme.databinding.FragmentMyBinding;
 import com.liys.onclickme.LOnClickMe;
 import com.liys.onclickme_annotations.AClick;
 
@@ -25,20 +26,31 @@ import com.liys.onclickme_annotations.AClick;
  */
 public class MyFragment extends Fragment {
 
+    View rootView;
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View root = inflater.inflate(R.layout.fragment_my, container, false);
+//        View root = inflater.inflate(R.layout.fragment_my, container, false);
 //        LOnClickMe.init(this, root);
-        return root;
+        FragmentMyBinding binding = FragmentMyBinding.inflate(inflater);
+        rootView = binding.getRoot();
+        test();
+        return binding.getRoot();
     }
 
 
+    private void test(){
+        rootView.findViewById(123456).setOnClickListener(v -> {
+            click(v);
+        });
+    }
+
 //    @AClick({"btn_fragment"})
-//    void click(View v){
+    void click(View v){
 //        Log.d("66", "点击Fragment...");
 //        Toast.makeText(getContext(), "点击Fragment...", Toast.LENGTH_SHORT).show();
-//    }
+    }
 //    @AClick({"btn_fragment2"})
 //    void click2(View v){
 //        Log.d("66", "点击Fragment2...");
