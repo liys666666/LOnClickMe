@@ -45,6 +45,6 @@ dependencies {
 **说明：**
 1. @AClick中的值, 使用字符串, 是为了避免在module中, R.id.xxx不是常量出现的一些问题.
 2. 以上代码可通过插件[OnClickMe](https://plugins.jetbrains.com/plugin/14634-onclickme)自动生成, 用法类似Butterknife，可以在Android studio上搜索安装
-3. 插件版本为2.3.0，如果AS上搜索不到，[点击此下载](https://gitee.com/liys666666/LOnClickMe/blob/master/OnClickMe2.3.0.jar)
+3. 插件版本为2.3.0，如果AS上搜索不到，[点击此下载](https://gitee.com/liys666666/LOnClickMe/raw/d8be9fbc269a8c212f4e52de811468fae72a687d/OnClickMe2.3.0.jar)
 
-![OnClickMe插件预览.gif](https://gitee.com/liys666666/LOnClickMe/blob/master/OnClickMe.gif)
+![OnClickMe插件预览.gif](https://gitee.com/liys666666/LOnClickMe/raw/7de797e31fe9dfe419cf6bdf6b4bdfaa50dc0e5d/OnClickMe.gif)
