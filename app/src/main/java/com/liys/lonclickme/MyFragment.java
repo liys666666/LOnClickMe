@@ -32,14 +32,8 @@ public class MyFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         binding = FragmentMyBinding.inflate(inflater);
-        return binding.getRoot();
-    }
-
-    @Override
-    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        Log.d("66", "初始化");
         LOnClickMe.bind(this, binding);
+        return binding.getRoot();
     }
 
     @AClick(ids = {"btn_fragment", "btn_fragment2"}, binding = FragmentMyBinding.class)
