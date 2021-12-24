@@ -17,9 +17,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="点击Activity2" />
-    <include
-        android:id="@+id/fragment"
-        layout="@layout/fragment_my"/>
     <FrameLayout
         android:id="@+id/right_fragment"
         android:layout_width="match_parent"

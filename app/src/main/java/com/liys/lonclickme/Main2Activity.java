@@ -34,38 +34,23 @@ public class Main2Activity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        replaceFragment(new MyFragment());
         LOnClickMe.bind(this, binding); //添加
     }
 
-    @AClick(ids = {"btn_activity", "btn_activity2", "fragment.btn_fragment"}, binding = ActivityMainBinding.class)
+    @AClick(ids = {"btn_activity", "btn_activity2"}, binding = ActivityMainBinding.class)
     public void click(View view, String idType) {
         switch (idType) {
             case "btn_activity":
+                Toast.makeText(this, "btn_activity", Toast.LENGTH_SHORT).show();
                 break;
             case "btn_activity2":
-                break;
-            case "fragment.btn_fragment":
+                Toast.makeText(this, "btn_activity2", Toast.LENGTH_SHORT).show();
                 break;
         }
     }
-
-
-//    @AClick(ids={"btn_activity", "btn_activity2"}, binding=ActivityMainBinding.class)
-//    public void click2(View view, String idName) {
-//        switch (idName) {
-//            case "btn_activity":
-//                Log.d(TAG, "点击activity...");
-//                Toast.makeText(this, "点击activity...", Toast.LENGTH_SHORT).show();
-//                break;
-//            case "btn_activity2":
-//                Log.d(TAG, "点击activity2...");
-//                Toast.makeText(this, "点击activity2...", Toast.LENGTH_SHORT).show();
-//                break;
-//        }
-//    }
 
 
     private void replaceFragment(Fragment fragment) {

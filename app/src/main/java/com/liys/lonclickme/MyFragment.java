@@ -26,34 +26,32 @@ import com.liys.onclickme_annotations.AClick;
  */
 public class MyFragment extends Fragment {
 
-    View rootView;
+    FragmentMyBinding binding;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-//        View root = inflater.inflate(R.layout.fragment_my, container, false);
-//        LOnClickMe.init(this, root);
-        FragmentMyBinding binding = FragmentMyBinding.inflate(inflater);
-        rootView = binding.getRoot();
-        test();
+        binding = FragmentMyBinding.inflate(inflater);
         return binding.getRoot();
     }
 
-
-    private void test(){
-        rootView.findViewById(123456).setOnClickListener(v -> {
-            click(v);
-        });
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        Log.d("66", "初始化");
+        LOnClickMe.bind(this, binding);
     }
 
-//    @AClick({"btn_fragment"})
-    void click(View v){
-//        Log.d("66", "点击Fragment...");
-//        Toast.makeText(getContext(), "点击Fragment...", Toast.LENGTH_SHORT).show();
+    @AClick(ids = {"btn_fragment", "btn_fragment2"}, binding = FragmentMyBinding.class)
+    public void click(View view, String idType) {
+        Log.d("66", "idType="+idType);
+        switch (idType) {
+            case "btn_fragment":
+                Toast.makeText(getActivity(), "btn_fragment", Toast.LENGTH_SHORT).show();
+                break;
+            case "btn_fragment2":
+                Toast.makeText(getActivity(), "btn_fragment2", Toast.LENGTH_SHORT).show();
+                break;
+        }
     }
-//    @AClick({"btn_fragment2"})
-//    void click2(View v){
-//        Log.d("66", "点击Fragment2...");
-//        Toast.makeText(getContext(), "点击Fragment2...", Toast.LENGTH_SHORT).show();
-//    }
 }

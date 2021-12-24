@@ -1,5 +1,7 @@
 package com.liys.onclickme;
 
+import android.util.Log;
+
 import androidx.viewbinding.ViewBinding;
 
 
@@ -20,12 +22,13 @@ public class LOnClickMe {
             Class clazz =  Class.forName(className);
             OnClickMeStandard standard = (OnClickMeStandard)clazz.newInstance();
             standard.bind(target, binding);
+            Log.d("66", "初始化完成...");
         } catch (IllegalAccessException ignored) {
-
+            Log.d("66", "ignored");
         } catch (InstantiationException e) {
-
+            Log.d("66", "InstantiationException");
         } catch (ClassNotFoundException e) {
-
+            Log.d("66", "ClassNotFoundException");
         }
     }
 }
